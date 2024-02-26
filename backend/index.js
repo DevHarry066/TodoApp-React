@@ -1,6 +1,6 @@
 const express = require('express');
-const { updateTodo } = require('./types');
-
+const { updateTodo, createTodo } = require('./types');
+const { todo } = require('./db');
 const app = express();
 
 app.use(express.json());
@@ -30,7 +30,7 @@ app.post('/todo', async (req, res) => {
     res.status(200).json({ msg: "Todo added successfully" });
 });
 
-app.put('/completed', async (req, res) => {
+app.put('/completed/:id', async (req, res) => {
     const updatePayload = req.body;
     const parsedPayload = updateTodo.safeParse(updatePayload);
     if (!parsedPayload.success) {
@@ -38,12 +38,10 @@ app.put('/completed', async (req, res) => {
         return;
     }
     //update the task
-    await todo.update({
-        _id: req.body.id
-    },
-        {
-            completed: true,
-        });
+    await todo.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true
+    });
     res.status(201).json({ msg: 'Task updated' });
 });
 
