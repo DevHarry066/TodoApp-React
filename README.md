@@ -12,7 +12,11 @@
  Backend is in Express and MongoDB as database
 
  # Package
- Express, jsonwebtoken, ZOD, Mongoose
+ Express, jsonwebtoken, ZOD, Mongoose, CORS
+
+ Front End:
+ React, npm install vite, prop-types
+ 
  
 
 
